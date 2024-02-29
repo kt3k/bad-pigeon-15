@@ -30,6 +30,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "yoshiyahino-bad-pigeon-61"
+          project: "yoshiyahino-bad-pigeon-13"
           entrypoint: "main.ts" # 📝 Update the entrypoint if necessary
           root: "." # 📝 Update the root if necessary
