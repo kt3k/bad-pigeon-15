@@ -1,9 +1,35 @@
-name: deploy
+name: Deploy
 on:
   push:
-  workflow_dispatch:
+    branches: main
+  pull_request:
+    branches: main
+
 jobs:
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    env: { DEPLOY_API_ENDPOINT: "https://deno-local.com" }
+
+    permissions:
+      id-token: write # Needed for auth with Deno Deploy
+      contents: read # Needed to clone the repository
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+
+      - name: Build step
+        run: "deno task build" # 📝 Update the build command(s) if necessary
+
+      - name: Upload to Deno Deploy
+        uses: denoland/deployctl@v1
+        with:
+          project: "yoshiyahino-bad-pigeon-38"
+          entrypoint: "main.ts" # 📝 Update the entrypoint if necessary
+          root: "." # 📝 Update the root if necessary
